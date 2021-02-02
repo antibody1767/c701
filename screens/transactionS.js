@@ -40,7 +40,7 @@ export default class TransactionScreen extends React.Component{
         return(
             <View style={styles.conainer}>
                 <Text>
-                    this.state.hasCameraPermission===true? this.state.scannedData:"requestCameraPermission"
+                    {this.state.hasCameraPermission===true? this.state.scannedData:"requestCameraPermission"}
                 </Text>
                 <TouchableOpacity style={styles.QR} onPress={this.getPermissions}>
                     <Text>Scan QR code </Text>
@@ -55,6 +55,7 @@ const styles = StyleSheet.create(
         conainer: {
             alignItems: "center",
             justifyContent:"center",
+            marginTop: 50,
         },
         QR:{
             backgroundColor:"red",

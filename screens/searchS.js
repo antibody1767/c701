@@ -16,6 +16,7 @@ const styles = StyleSheet.create(
         conainer: {
             alignItems: "center",
             justifyContent:"center",
+            
         }
     }
 )

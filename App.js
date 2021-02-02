@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import SearchScreen from "./screens/searchS"
 import TransactionScreen from "./screens/transactionS"
 import {createAppContainer} from "react-navigation"
-import {createBottomTabNavigator} from "react-navigation-tab"
+import {createBottomTabNavigator} from "react-navigation-tabs"
 
 export default class App extends Component {
 render(){

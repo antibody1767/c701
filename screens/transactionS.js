@@ -1,5 +1,5 @@
 import * as React from "react"
-import {View, Text, StyleSheet,TouchableOpacity, Button} from "react-native"
+import {View, Text, StyleSheet,TouchableOpacity, Button, TextInput} from "react-native"
 import * as Permissions from "expo-permissions";
 import {BarCodeScanner} from "expo-barcode-scanner";
 export default class TransactionScreen extends React.Component{
@@ -8,15 +8,16 @@ export default class TransactionScreen extends React.Component{
         this.state={
             hasCameraPermission: null,
             scanned: false,
-            scannedData: "",
+            scannedBookId: "",
+            scannedStudentID:"",
             buttonState:"normal"
         }
     }
-    getPermissions=async()=>{
+    getPermissions=async(id)=>{
         const {status}= await Permissions.askAsync(Permissions.CAMERA)
         this.setState({
             hasCameraPermission: status==="granted",
-            buttonState: "clicked",
+            buttonState: id,
             scanned:false
         })
     }
@@ -38,14 +39,30 @@ export default class TransactionScreen extends React.Component{
 
         
         return(
-            <View style={styles.conainer}>
+            <View style={styles.conainer} > 
+            <Image style={{width:4,height:4}}source={require("../assets/booklogo.jpg")}/>
                 <Text>
                     {this.state.hasCameraPermission===true? this.state.scannedData:"requestCameraPermission"}
                 </Text>
-                <TouchableOpacity style={styles.QR} onPress={this.getPermissions}>
-                    <Text>Scan QR code </Text>
+                <View>
+                    <TextInput style = {styles.input} placeholder="book ID" value={this.state.scannedBookId}>
+
+                    </TextInput> 
+                    <TouchableOpacity style={styles.QR} onPress={()=>{
+                        this.getPermissions("bookId")
+                    }}>
+                        <Text>Scan</Text>
+                    </TouchableOpacity>
+                </View>
+                <View>
+                    <TextInput style = {styles.input} placeholder="student ID" value={this.state.scannedStudentID}>
                     
-                </TouchableOpacity>
+                    </TextInput> 
+                    <TouchableOpacity style={styles.QR} onPress={()=>{
+                        this.getPermissions("StudentId")}}>
+                        <Text>Scan</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         )}
     }
@@ -61,6 +78,9 @@ const styles = StyleSheet.create(
             backgroundColor:"red",
             padding:20,
             marginTop: 100,
+        },
+        input: {
+            borderWidth: 2
         }
     }
 )

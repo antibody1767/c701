@@ -2,6 +2,8 @@ import * as React from "react"
 import {View, Text, StyleSheet,TouchableOpacity, Button, TextInput} from "react-native"
 import * as Permissions from "expo-permissions";
 import {BarCodeScanner} from "expo-barcode-scanner";
+import * as firebase from "firebase";
+import db from "../config";
 export default class TransactionScreen extends React.Component{
     constructor(){
         super();
@@ -22,14 +24,28 @@ export default class TransactionScreen extends React.Component{
         })
     }
     handleBarcodeScanner=async({ type,data})=>{
-        this.setState({
-            scanned: true,
-            scannedData:data,
-            buttonState: "normal",
-        })
+        var {bookState}=this.state
+        if(bookState==="bookId"){
+            this.setState({
+                scanned: true,
+                scannedBookId:data,
+                buttonState: "normal",
+            })
+        }else if(bookState==="studentId"){
+            this.setState({
+                scanned: true,
+                scannedStudentID:data,
+                buttonState: "normal",
+            })
+        }
+        
+    }
+
+    handleTransaction=()=>{
+        db.collection("books")
     }
     render(){
-        if(this.state.hasCameraPermission===true&& this.state.buttonState=== "clicked" ){
+        if(this.state.hasCameraPermission===true&& this.state.buttonState !== "normal" ){
             return(
                 <BarCodeScanner style={StyleSheet.absoluteFillObject} onBarCodeScanned={
                     this.state.scanned?undefined: this.handleBarcodeScanner
@@ -63,6 +79,7 @@ export default class TransactionScreen extends React.Component{
                         <Text>Scan</Text>
                     </TouchableOpacity>
                 </View>
+                <TouchableOpacity 
             </View>
         )}
     }
